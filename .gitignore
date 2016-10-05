@@ -1,0 +1,5 @@
+*.pyc
+.git
+to_delete/
+hide_key/
+local_settings.py
