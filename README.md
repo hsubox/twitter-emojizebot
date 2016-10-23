@@ -11,14 +11,12 @@ Set up the bot with the Twitter API by reading the links above. Rename local_set
 
 ## Debugging
 
-If you want to test the script or to debug the tweet generation, you can skip the random number generation and not publish the resulting tweets to Twitter.
-
-First, adjust the `DEBUG` variable in `local_settings.py`.
+If you want to test the script or to debug the tweet generation, adjust the `DEBUG` variable in `local_settings.py`.
 
 ```
 DEBUG = True 
 ```
 
-After that, commit the change and `git push heroku master`. Then run the command `heroku run worker` on the command line and watch what happens.
+## Deploying
 
-If you want to avoid hitting the Twitter API and instead want to use a static text file, you can do that. First, create a text file containing a Python list of quote-wrapped tweets. Then set the `STATIC_TEST` variable to `True`. Finally, specify the name of text file using the `TEST_SOURCE` variable in `local_settings.py`
+Commit the change and `git push heroku master`. Then run the command `heroku run worker` on the command line and watch what happens.

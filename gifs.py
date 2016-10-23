@@ -37,18 +37,30 @@ if DEBUG == True:
     twt = convert_tweet_to_emoji(twt)
     print(twt)
 else:
-    while (True):
-        api=connect() # connect to Twitter API
-        last_mention_id = 0;
-        last_mention = api.mentions_timeline(count=1)
-        if (last_mention[0].id != last_mention_id): # only run if mention has not been responded to
+    api=connect() # connect to Twitter API
+    
+    # gets the last tweet @ me
+    last_mention = api.mentions_timeline(count=1)
+    
+    # gets my last tweet and gets the "in reply to" tweet value
+    my_last_tweet = api.user_timeline(count=1);
+    my_last_tweet_reply_to = my_last_tweet[0].in_reply_to_status_id or null
+    
+    # for debugging
+    # print my_last_tweet_reply_to
+    # print last_mention[0].id
+    
+    # only run if last mention has not been responded to
+    if (last_mention[0].id != my_last_tweet_reply_to):
+    
+        last_mention_id = last_mention[0].id
+        twt = last_mention[0].text
+        tweet_at = last_mention[0].user.screen_name
+    
+        twt = convert_tweet_to_emoji(twt)
+        twt = append_mention(tweet_at, twt)
+        post_to_twitter(twt, last_mention_id)
         
-            last_mention_id = last_mention[0].id
-            twt = last_mention[0].text
-            tweet_at = last_mention[0].user.screen_name
+        # print "POSTED"
         
-            twt = convert_tweet_to_emoji(twt)
-            twt = append_mention(tweet_at, twt)
-            post_to_twitter(twt, last_mention_id)
-        
-        time.sleep(15*60) # tweets at most every 15 minutes
+    # time.sleep(15*60) # tweets at most every 15 minutes
